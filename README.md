@@ -1,4 +1,4 @@
-# 手机号码归属地查询
+# 手机号码归属地、运营商查询
 
 [![Latest Stable Version](http://poser.pugx.org/jieeit/phone/v)](https://packagist.org/packages/jieeit/phone)
 [![Total Downloads](http://poser.pugx.org/jieeit/phone/downloads)](https://packagist.org/packages/jieeit/phone)
@@ -9,7 +9,7 @@
 [![Minimum PHP Version](https://img.shields.io/badge/php-%5E7.0%20%7C%7C%20%5E8.0-8892BF.svg)](https://php.net/)
 
 
-可能是目前最全的手机号归属地查询库，**支持虚拟运营商与物联卡**。
+可能是目前Github最全的手机号归属地及所属运营商查询库，**支持虚拟运营商与物联卡**。
 
 - 数据截止时间: 2026年5月
 - 手机号段记录条数：**520,170**
@@ -37,7 +37,7 @@ use Jieeit\Phone\Facade\Phone;
 
 try {
     $info = Phone::find('13213000000');
-    print_r($info);
+    var_dump(json_encode($info, JSON_UNESCAPED_UNICODE));
 } catch (InvalidArgumentException $e) {
     // 手机号段不存在
     echo '查询失败：' . $e->getMessage();
@@ -46,16 +46,24 @@ try {
 
 **输出示例：**
 
-```php
-Array
-(
-    [phone] => 13213000000      // 查询号码
-    [province] => 河南          // 省份
-    [city] => 郑州              // 城市
-    [operator] => 联通          // 归属基础运营商
-    [virtual_operator] =>       // 虚拟运营商名称（如有）
-)
+```json
+{
+  "phone": "13213000000",
+  "province": "河南",
+  "city": "郑州",
+  "operator": "联通",
+  "virtual_operator": ""
+}
 ```
+## 响应参数
+
+| 参数 | 类型 | 描述                  | 示例值         |
+| :--- | :--- |:--------------------|:------------|
+| phone | string | 查询号码                | 13213000000 |
+| province | string | 省份                  | 河南          |
+| city | string | 城市                  | 郑州          |
+| operator | string | 归属基础运营商             | 联通          |
+| virtual_operator | string | 虚拟运营商名称（有就代表为虚拟运营商） | 迪信通         |
 
 ---
 
@@ -108,4 +116,4 @@ Array
 
 ## 开源协议
 
-MIT License，详见项目根目录 `LICENSE` 文件。
+MIT License
