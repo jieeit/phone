@@ -1,0 +1,27 @@
+/vendor/
+composer.lock
+README.internal.md
+
+# IDE / editor
+/.idea/
+/.vscode/
+*.swp
+*.swo
+
+# OS files
+/.DS_Store
+Thumbs.db
+
+# Runtime / logs
+*.log
+*.tmp
+*.bak
+
+# Archives
+*.zip
+*.tar
+*.tar.gz
+
+# PHPUnit / coverage
+/.phpunit.cache/
+/coverage/

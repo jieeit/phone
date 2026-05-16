@@ -1,0 +1,43 @@
+{
+    "name": "jieeit/phone",
+    "description": "手机号归属地查询,手机号码归属地信息库",
+    "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "phone",
+        "mobile",
+        "location",
+        "carrier",
+        "php"
+    ],
+    "authors": [
+        {
+            "name": "jieeit",
+            "email": "1450540670@qq.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.6"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Jieeit\\Phone\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Jieeit\\Phone\\Tests\\": "tests/"
+        }
+    },
+    "bin": [
+        "src/bin/build-phone-data.php"
+    ],
+    "scripts": {
+        "test": "phpunit"
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
