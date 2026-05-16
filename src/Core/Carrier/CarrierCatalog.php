@@ -1,7 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jieeit\Phone\Core\Carrier;
 
+/**
+ * @desc  运营商字典与映射目录
+ * @author Jieeit
+ * @date 2026/5/16 14:13
+ */
 class CarrierCatalog
 {
     // 运营商ID字典：用于构建阶段压缩存储，以及查询阶段反查名称。

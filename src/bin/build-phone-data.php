@@ -1,6 +1,8 @@
 #!/usr/bin/env php
 <?php
 
+declare(strict_types=1);
+
 if (PHP_SAPI !== 'cli') {
     fwrite(STDERR, "This script must run in CLI mode.\n");
     exit(1);

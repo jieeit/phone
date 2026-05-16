@@ -1,7 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jieeit\Phone\Core\Binary;
 
+/**
+ * @desc  二进制数据格式定义
+ * @author Jieeit
+ * @date 2026/5/16 14:13
+ */
 class BinaryFormat
 {
     // 文件魔数，用于识别 phone 二进制数据文件。

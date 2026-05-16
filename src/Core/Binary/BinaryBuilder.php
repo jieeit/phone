@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jieeit\Phone\Core\Binary;
 
 use Jieeit\Phone\Core\Carrier\CarrierCatalog;
@@ -7,6 +9,11 @@ use InvalidArgumentException;
 use PDO;
 use RuntimeException;
 
+/**
+ * @desc  二进制手机号数据构建器
+ * @author Jieeit
+ * @date 2026/5/16 14:13
+ */
 class BinaryBuilder
 {
     public function buildFromPdo(PDO $pdo, $tableName, $outputFile)

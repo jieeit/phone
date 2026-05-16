@@ -1,11 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jieeit\Phone\Core\Binary;
 
 use Jieeit\Phone\Core\Carrier\CarrierCatalog;
 use InvalidArgumentException;
 use RuntimeException;
 
+/**
+ * @desc  二进制手机号数据读取器
+ * @author Jieeit
+ * @date 2026/5/16 14:13
+ */
 class BinaryReader
 {
     private $fp;

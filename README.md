@@ -6,12 +6,12 @@
 [![Jieeit Phone](https://img.shields.io/badge/build-passing-brightgreen.svg)]()
 [![Jieeit Phone](https://img.shields.io/github/last-commit/jieeit/phone/main)]()
 [![Jieeit Phone](https://img.shields.io/github/v/tag/jieeit/phone?color=ff69b4)]()
-[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%205.6-8892BF.svg)](https://php.net/)
+[![Minimum PHP Version](https://img.shields.io/badge/php-%5E7.0%20%7C%7C%20%5E8.0-8892BF.svg)](https://php.net/)
 
 
 可能是目前最全的手机号归属地查询库，**支持虚拟运营商与物联卡**。
 
-- 数据截止时间: 2026年3月
+- 数据截止时间: 2026年5月
 - 手机号段记录条数：**520,170**
 - 基于 PHP 实现，采用**二分查找法**，查询高效
 - 归属地数据文件大小：**5,207,793 字节**
@@ -35,8 +35,13 @@ require __DIR__ . '/vendor/autoload.php';
 
 use Jieeit\Phone\Facade\Phone;
 
-$info = Phone::find('13213000000');
-print_r($info);
+try {
+    $info = Phone::find('13213000000');
+    print_r($info);
+} catch (InvalidArgumentException $e) {
+    // 手机号段不存在
+    echo '查询失败：' . $e->getMessage();
+}
 ```
 
 **输出示例：**

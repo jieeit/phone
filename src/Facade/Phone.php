@@ -1,11 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jieeit\Phone\Facade;
 
 use Jieeit\Phone\Service\PhoneLookupService;
 
 /**
- * Facade 门面类：提供统一静态查询入口。
+ * @desc  Facade 门面类，提供统一静态查询入口
+ * @author Jieeit
+ * @date 2026/5/16 14:13
  */
 class Phone
 {
