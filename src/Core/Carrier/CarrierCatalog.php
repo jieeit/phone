@@ -72,6 +72,11 @@ class CarrierCatalog
         57 => '豆电信',
         58 => '优酷移动',
         59 => '华云互联',
+        60 => '中国移动卫星电话',
+        61 => '电信增值业务',
+        62 => '易索得移动',
+        63 => '银盛移动',
+        64 => '迪信通通信',
     );
 
     private static $virtualPrefixToBase = array(
@@ -118,7 +123,7 @@ class CarrierCatalog
 
     public static function isVirtualCarrierId($id)
     {
-        return $id >= 5;
+        return ($id >= 5 && $id <= 59) || ($id >= 62 && $id <= 64);
     }
 
     public static function resolveBaseCarrierIdByPhone($phone)

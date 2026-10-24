@@ -24,8 +24,10 @@ if ($loops <= 0) {
 }
 
 try {
-    // 预热，避免首次初始化影响压测结果。
+    // 首次查询包含数据文件初始化，单独计时。
+    $coldStart = microtime(true);
     Phone::find($phone);
+    $coldMs = (microtime(true) - $coldStart) * 1000;
 
     $start = microtime(true);
     for ($i = 0; $i < $loops; $i++) {
@@ -38,6 +40,7 @@ try {
 
     echo "Benchmark done\n";
     echo 'phone: ' . $phone . "\n";
+    echo 'first_query_ms: ' . number_format($coldMs, 3) . "\n";
     echo 'loops: ' . $loops . "\n";
     echo 'total_time_sec: ' . number_format($cost, 6) . "\n";
     echo 'qps: ' . number_format($qps, 2) . "\n";

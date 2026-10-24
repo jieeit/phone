@@ -80,7 +80,8 @@ try {
             $actual['province'] === $expected['province']
             && $actual['city'] === $expected['city']
             && $actual['operator'] === $expected['operator']
-            && $actual['virtual_operator'] === $expected['virtual_operator']
+            // 数据库只保留四大基础运营商时，不再具备验证虚拟品牌的信息。
+            && ($expected['virtual_operator'] === '' || $actual['virtual_operator'] === $expected['virtual_operator'])
         ) {
             $passed++;
         } else {

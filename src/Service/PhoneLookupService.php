@@ -51,9 +51,12 @@ class PhoneLookupService implements PhoneLookupInterface
             // 虚拟运营商：对外 operator 返回四大基础运营商，
             // 同时额外返回 virtual_operator 原始品牌名。
             $virtualOperator = $carrierName;
-            $baseCarrierId = CarrierCatalog::resolveBaseCarrierIdByPhone($phone);
-            if ($baseCarrierId === null) {
-                throw new InvalidArgumentException('虚拟运营商号段未映射到基础运营商：' . substr($phone, 0, 4));
+            $baseCarrierId = (int) $result['base_carrier_id'];
+            if ($baseCarrierId === 0) {
+                $baseCarrierId = CarrierCatalog::resolveBaseCarrierIdByPhone($phone);
+            }
+            if ($baseCarrierId === null || $baseCarrierId < 1 || $baseCarrierId > 4) {
+                throw new InvalidArgumentException('虚拟运营商号段未映射到基础运营商：' . $phone7);
             }
 
             $baseCarrierName = CarrierCatalog::getCarrierNameById($baseCarrierId);
@@ -64,12 +67,19 @@ class PhoneLookupService implements PhoneLookupInterface
             $result['operator'] = $baseCarrierName;
             $result['virtual_operator'] = $virtualOperator;
         } else {
-            $result['operator'] = $carrierName;
+            $baseCarrierId = (int) $result['base_carrier_id'];
+            $operatorId = $carrierId <= 4 ? $carrierId : $baseCarrierId;
+            $operatorName = CarrierCatalog::getCarrierNameById($operatorId);
+            if ($operatorId < 1 || $operatorId > 4 || $operatorName === null) {
+                throw new InvalidArgumentException('号段未映射到基础运营商：' . $phone7);
+            }
+            $result['operator'] = $operatorName;
             $result['virtual_operator'] = '';
         }
 
         unset($result['carrier_id']);
         unset($result['carrier_name']);
+        unset($result['base_carrier_id']);
         $result['phone'] = $phone;
 
         return $result;

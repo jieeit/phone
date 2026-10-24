@@ -1,15 +1,13 @@
 {
     "name": "jieeit/phone",
-    "description": "手机号归属地查询,手机号码归属地信息库",
+    "description": "手机号归属地查询,手机号码归属地信息库, 522410条数据, 截止时间2026年10月22日, 目前是全网最全的数据",
+    "keywords": [
+        "phone", "mobile", "phone-location", "phone-attribution", 
+        "手机号归属地", "手机号码归属地查询", "手机号段", "运营商查询",
+        "离线查询", "php", "carrier", "china-phone", "phone-number"
+    ],
     "type": "library",
     "license": "MIT",
-    "keywords": [
-        "phone",
-        "mobile",
-        "location",
-        "carrier",
-        "php"
-    ],
     "authors": [
         {
             "name": "jieeit",

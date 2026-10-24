@@ -71,6 +71,7 @@ class BinaryReader
                     'city' => $this->cityDict[$entry['city_id']]['city'],
                     'carrier_id' => (int) $entry['carrier_id'],
                     'carrier_name' => $carrierName,
+                    'base_carrier_id' => (int) $entry['base_carrier_id'],
                 );
             }
 
@@ -102,7 +103,7 @@ class BinaryReader
 
         $versionArr = unpack('vversion', substr($headerBytes, 4, 2));
         $version = (int) $versionArr['version'];
-        if ($version !== BinaryFormat::VERSION) {
+        if ($version !== 2 && $version !== BinaryFormat::VERSION) {
             throw new RuntimeException('Unsupported binary file version: ' . $version);
         }
 
@@ -112,6 +113,7 @@ class BinaryReader
         );
 
         $header = array(
+            'version' => $version,
             'record_count' => (int) $values['record_count'],
             'index_offset' => (int) $values['index_offset'],
             'index_length' => (int) $values['index_length'],
@@ -120,7 +122,8 @@ class BinaryReader
             'city_count' => (int) $values['city_count'],
         );
 
-        $expectedIndexLength = $header['record_count'] * BinaryFormat::INDEX_ENTRY_SIZE;
+        $entrySize = $version === 2 ? BinaryFormat::V2_INDEX_ENTRY_SIZE : BinaryFormat::INDEX_ENTRY_SIZE;
+        $expectedIndexLength = $header['record_count'] * $entrySize;
         if ($header['index_length'] !== $expectedIndexLength) {
             throw new RuntimeException('Index length mismatch in binary file.');
         }
@@ -162,23 +165,26 @@ class BinaryReader
 
     private function readIndexEntry($index)
     {
-        $offset = $this->header['index_offset'] + ($index * BinaryFormat::INDEX_ENTRY_SIZE);
+        $entrySize = $this->header['version'] === 2 ? BinaryFormat::V2_INDEX_ENTRY_SIZE : BinaryFormat::INDEX_ENTRY_SIZE;
+        $offset = $this->header['index_offset'] + ($index * $entrySize);
         if (fseek($this->fp, $offset) !== 0) {
             throw new RuntimeException('Failed to seek index entry.');
         }
 
-        $bytes = fread($this->fp, BinaryFormat::INDEX_ENTRY_SIZE);
-        if ($bytes === false || strlen($bytes) !== BinaryFormat::INDEX_ENTRY_SIZE) {
+        $bytes = fread($this->fp, $entrySize);
+        if ($bytes === false || strlen($bytes) !== $entrySize) {
             throw new RuntimeException('Failed to read index entry.');
         }
 
         $phoneCity = unpack('Vphone/Vcity_id', substr($bytes, 0, 8));
         $carrierData = unpack('vcarrier_id', substr($bytes, 8, 2));
+        $baseData = $this->header['version'] === 2 ? null : unpack('vbase_carrier_id', substr($bytes, 10, 2));
 
         return array(
             'phone' => (int) $phoneCity['phone'],
             'city_id' => (int) $phoneCity['city_id'],
             'carrier_id' => (int) $carrierData['carrier_id'],
+            'base_carrier_id' => $baseData === null ? 0 : (int) $baseData['base_carrier_id'],
         );
     }
 

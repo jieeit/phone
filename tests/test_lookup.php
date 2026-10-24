@@ -30,6 +30,7 @@ try {
     echo 'province: ' . $result['province'] . "\n";
     echo 'city: ' . $result['city'] . "\n";
     echo 'operator: ' . $result['operator'] . "\n";
+    echo 'virtual_operator: ' . $result['virtual_operator'] . "\n";
 
     exit(0);
 } catch (Exception $e) {

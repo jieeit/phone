@@ -20,11 +20,11 @@ function pass($message)
 // 用法：
 // php tests/test_virtual_lookup.php <phone> <expected_base_operator> <expected_virtual_operator>
 // 示例：
-// php tests/test_virtual_lookup.php 17041234567 联通 迪信通
+// php tests/test_virtual_lookup.php 17041234567 联通 虚拟运营商
 
 $phone = isset($argv[1]) ? (string) $argv[1] : '17041234567';
 $expectedBase = isset($argv[2]) ? (string) $argv[2] : '联通';
-$expectedVirtual = isset($argv[3]) ? (string) $argv[3] : null;
+$expectedVirtual = isset($argv[3]) ? (string) $argv[3] : '虚拟运营商';
 
 if (!preg_match('/^[0-9]{11}$/', $phone)) {
     fail('phone must be exactly 11 digits');

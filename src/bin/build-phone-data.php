@@ -35,11 +35,13 @@ $options = getopt('', array(
     'database::',
     'table::',
     'output::',
+    'csv::',
     'help::',
 ));
 
 if (isset($options['help'])) {
     $help = "Usage:\n"
+        . "  php src/bin/build-phone-data.php --csv=data/source.csv [--output=src/data/phone.dat]\n"
         . "  php src/bin/build-phone-data.php [--host=127.0.0.1] [--port=3306] [--user=root] [--password=root] [--database=test] [--table=sa_phone_number_segment] [--output=src/data/phone.dat]\n";
     fwrite(STDOUT, $help);
     exit(0);
@@ -58,13 +60,16 @@ $dsn = sprintf('mysql:host=%s;port=%s;dbname=%s;charset=utf8mb4', $host, $port, 
 try {
     $start = microtime(true);
 
-    $pdo = new \PDO($dsn, $user, $password, array(
-        \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
-        \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
-    ));
-
     $builder = new \Jieeit\Phone\Core\Binary\BinaryBuilder();
-    $result = $builder->buildFromPdo($pdo, $table, $output);
+    if (isset($options['csv'])) {
+        $result = $builder->buildFromCsv($options['csv'], $output);
+    } else {
+        $pdo = new \PDO($dsn, $user, $password, array(
+            \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
+            \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
+        ));
+        $result = $builder->buildFromPdo($pdo, $table, $output);
+    }
 
     $cost = microtime(true) - $start;
 

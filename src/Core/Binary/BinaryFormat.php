@@ -13,8 +13,8 @@ class BinaryFormat
 {
     // 文件魔数，用于识别 phone 二进制数据文件。
     const MAGIC = "JPHN";
-    // 当前二进制格式版本号（V2：城市字典 + 运营商编码）。
-    const VERSION = 2;
+    // V3：增加基础运营商编码，保留 CSV 中虚拟品牌与明确指定的基础运营商。
+    const VERSION = 3;
     // 固定使用小端字节序。
     const ENDIAN = "little";
 
@@ -30,6 +30,7 @@ class BinaryFormat
     // 28-31 城市字典数量 (uint32)
     // 32-35 保留位 (uint32)
     const HEADER_SIZE = 36;
-    // 索引区每条记录固定 10 字节：phone7(4) + city_id(4) + carrier_id(2)。
-    const INDEX_ENTRY_SIZE = 10;
+    // V3：phone7(4) + city_id(4) + carrier_id(2) + base_carrier_id(2)。
+    const INDEX_ENTRY_SIZE = 12;
+    const V2_INDEX_ENTRY_SIZE = 10;
 }

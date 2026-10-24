@@ -54,7 +54,10 @@ class DbConsistencyTest extends TestCase
             $this->assertSame($expected['province'], $actual['province'], 'province mismatch for ' . $phone11);
             $this->assertSame($expected['city'], $actual['city'], 'city mismatch for ' . $phone11);
             $this->assertSame($expected['operator'], $actual['operator'], 'operator mismatch for ' . $phone11);
-            $this->assertSame($expected['virtual_operator'], $actual['virtual_operator'], 'virtual_operator mismatch for ' . $phone11);
+            // 数据库 operator 现仅保存基础运营商，虚拟品牌须以 CSV/phone.dat 核对。
+            if (!in_array($row['operator'], array('移动', '联通', '电信', '广电'), true)) {
+                $this->assertSame($expected['virtual_operator'], $actual['virtual_operator'], 'virtual_operator mismatch for ' . $phone11);
+            }
         }
     }
 
